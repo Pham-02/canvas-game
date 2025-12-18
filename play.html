@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathGo!</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/225cccddab.js" crossorigin="anonymous"></script>
+     <link rel="icon" type="image/png" href="/images/logoIcon.png">
+</head>
+
+<body>
+
+ 
+        <div class="container">
+        <div id="qrSelect">
+            <h1 class="title">SELECT QUARTER LEVEL</h1>
+            <a href="MainMenu.html" class="back">
+    &#9664; RETURN TO MAIN MENU  
+    </a>
+            <div class="difficulty-buttons">
+                <button class="diff-btn" onclick="goToPage('q1')">QUARTER 1</button>
+                <button class="diff-btn" onclick="goToPage('q2')">QUARTER 2</button>
+                <button class="diff-btn" onclick="goToPage('q3')">QUARTER 3</button>
+                <button class="diff-btn" onclick="goToPage('q4')">QUARTER4</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="qtrOne">
+
+        <canvas id="oneCnv"></canvas>
+        <h1>B I N G O</h1>
+        <div class="npc-wrapper">
+            <img src="Images/Chat Piskel.png" alt="npc" class="chat">
+            <img src="Images/New Piskel.png" alt="npc" class="npc">
+            
+        </div>
+        
+        
+        <div id="popupOverlay">
+            <div id="popupBox">
+                <h2 id="questionText">Question goes here</h2>
+                <div id="choices" style="color: white;">⏱ Time: 10s</div>
+                <p id="countdown"></p>
+                <button id="submitBtn" class="submitBtn" onclick="submitAnswer()">Submit</button>
+            </div>
+        </div>
+
+        <div class="outerptsborder">
+  <div id="timer">⏱ Time: 00:00</div>
+  <p >CURRENT PERCENTAGE: <span id="percentage">0%</span></p>
+  <div id="answerLog"></div>
+  <hr>
+  <p>COINS: <span id="coinDisplay">0</span></p>
+ 
+  
+</div>
+
+  <div id="resultPopup" class="popupBg" >
+    <div class="popupInside">
+        <h2 id="resultMessage"></h2>
+        <button class="popupRbtn" onclick="returnToMenu()">Return to Main Menu</button>
+    </div>
+  </div>
+
+  <!-- Shop Items HUD -->
+<div id="shopItemsHud" class="shop-items-hud">
+  <div class="shop-item-box" id="hintHudBox">
+    <span>💡</span>
+    <span class="shop-item-count" id="hintCountHud">0</span>
+    <div class="shop-item-label">HINT</div>
+  </div>
+  <div class="shop-item-box" id="swapHudBox">
+    <span>🔄</span>
+    <span class="shop-item-count" id="swapCountHud">0</span>
+    <div class="shop-item-label">SWAP</div>
+  </div>
+  <div class="shop-item-box" id="freezeHudBox">
+    <span>❄️</span>
+    <span class="shop-item-count" id="freezeCountHud">0</span>
+    <div class="shop-item-label">FREEZE</div>
+  </div>
+  <div class="shop-item-box" id="doubleHudBox">
+    <span>2×</span>
+    <span class="shop-item-count" id="doubleCountHud">0</span>
+    <div class="shop-item-label">DOUBLE</div>
+  </div>
+  <div class="shop-item-box" id="retryHudBox">
+    <span>🎟️</span>
+    <span class="shop-item-count" id="retryCountHud">0</span>
+    <div class="shop-item-label">RETRY</div>
+  </div>
+</div>
+</div>
+
+    <!-- Item Use Modal Background -->
+<div id="itemUseModalBg" class="item-use-modal-bg"></div>
+<!-- Item Use Modal -->
+<div id="itemUseModal" class="item-use-modal">
+  <div class="item-use-modal-box">
+    <span id="itemUseMessage">Would you like to use this item?</span>
+    <div style="margin-top:18px;">
+      <button id="itemUseYes" class="modal-btn">Yes</button>
+      <button id="itemUseNo" class="modal-btn">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hint Effect Overlay -->
+<div id="hintEffectOverlay" class="hint-effect-overlay"><div class="hint-effect">💡 FREE ANSWER!</div></div>
+
+<!-- Retry Effect Overlay -->
+<div id="retryEffectOverlay" class="retry-effect-overlay"><span class="retry-effect">Retry Activated!</span></div>
+
+<!-- Swap Effect Overlay -->
+<div id="swapEffectOverlay" class="swap-effect-overlay"><span class="swap-effect">🔄 SWAPPED!</span></div>
+
+<!-- Freeze Effect Overlay -->
+<div id="freezeEffectOverlay" class="freeze-effect-overlay">
+  <canvas id="freezeEffectCanvas"></canvas>
+  <div class="freeze-effect">❄️ TIMER FROZEN! ❄️</div>
+</div>
+
+<!-- Double Points Effect Overlay -->
+<div id="doubleEffectOverlay" class="double-effect-overlay">
+  <div class="double-effect"></div>
+</div>
+</div>
+    <script src="xlsx.full.min.js"></script>
+
+    <script src="function.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathGo!</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/images/logoIcon.png">
+</head>
+<script>
+    function displayLeaderboard() {
+        let leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
+        const tbody = document.querySelector('#leaderboardTable tbody');
+        tbody.innerHTML = '';
+        leaderboard.forEach((entry, idx) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${idx + 1}</td><td>${entry.name}</td><td>${entry.average}%</td>`;
+            tbody.appendChild(row);
+        });
+    }
+
+    function displayTimeLeaderboard() {
+        let timeLeaderboard = JSON.parse(localStorage.getItem('timeLeaderboard') || '[]');
+        const tbody = document.querySelector('#timeLeaderboardTable tbody');
+        tbody.innerHTML = '';
+        timeLeaderboard.forEach((entry, idx) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${idx + 1}</td><td>${entry.name}</td><td>${entry.time}s</td>`;
+            tbody.appendChild(row);
+        });
+    }
+    window.addEventListener('DOMContentLoaded', displayTimeLeaderboard);
+    window.addEventListener('DOMContentLoaded', displayLeaderboard);
+</script>
+
+<body>
+
+    <table id="leaderboardTable">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Average</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <table id="timeLeaderboardTable">
+        <thead>
+
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Time(s)</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <a href="MainMenu.html" class="back">
+    &#9664; RETURN TO MAIN MENU  
+    </a>
+
+    <script src="function.js"></script>
+</body>
+
+</html>

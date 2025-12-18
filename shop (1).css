@@ -1,0 +1,737 @@
+@font-face {
+    font-family: 'PressStart2P';
+    src: url('fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --brown: #6a3f1d;
+    --brown-d: #4f2e15;
+    --accent: #ff961e;
+    --green: #53d13a;
+    --ink: #121212;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-image: url("Images/FixedBG.jfif.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    font-family: 'PressStart2P', monospace;
+}
+
+
+/* ABILITY OF ITEMS */
+
+.items-container {
+    display: flex;
+    gap: 20px;
+}
+
+.item {
+    width: 90px;
+    height: 90px;
+    background: #2a2a2a;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px #fff;
+}
+
+
+/* OOVERLAY (shared) */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    z-index: 100;
+}
+
+.overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.effect {
+    font-size: 48px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+    animation: pop 0.7s ease;
+}
+
+
+/* FREEZE OVERLAY CANVAS */
+
+#snowCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+
+/* ANIMATION */
+
+@keyframes pop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* COLORS FOR ITEMS */
+
+#hintOverlay .effect {
+    color: #ffea00;
+    text-shadow: 0 0 15px #ffe100;
+}
+
+#freezeOverlay .effect {
+    color: #aef;
+    text-shadow: 0 0 15px #00cfff;
+}
+
+#swapOverlay .effect {
+    color: #4af;
+    animation: spin 1s ease;
+}
+
+#doubleOverlay .effect {
+    color: #ff4040;
+    text-shadow: 0 0 20px red;
+}
+
+#retryOverlay .effect {
+    color: #00ff80;
+    animation: pulse 1s infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+
+/* GROUND & BACKDROP */
+
+.ground {
+    position: fixed;
+    inset: auto 40vh;
+    pointer-events: none;
+    overflow: hidden;
+    background: linear-gradient(#6fdc6f, #47b447 45%, #2e8f2e);
+}
+
+.hill {
+    position: absolute;
+    bottom: -12vh;
+    width: 70vw;
+    height: 40vh;
+    border-radius: 50%;
+    background: #58c058;
+    filter: brightness(.95);
+}
+
+.hill.h2 {
+    left: 60%;
+    width: 80vw;
+    background: #50b850;
+}
+
+.path {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    width: 70vw;
+    height: 18vh;
+    border-radius: 50% 50% 0 0;
+    background: radial-gradient(60% 120% at 50% 120%, #ffcd7a 0, #e3a14a 60%, #b87423 100%);
+    opacity: .9;
+}
+
+.topbar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    padding: 16px;
+}
+
+.btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'PressStart2P', monospace;
+    font-weight: 700;
+    letter-spacing: .3px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #2b1604;
+    box-shadow: 0 6px 0 #cc7413, 0 10px 20px rgba(0, 0, 0, .25);
+    transform: translate(0);
+    transition: transform .1s ease, box-shadow .1s easez filter .2s ease;
+}
+
+.btn:hover {
+    filter: brightness(1.05);
+}
+
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 #cc7413, 0 6px 12px rgba(0, 0, 0, .25);
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba (0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.backdrop.open {
+    display: flex;
+    animation: fadeIn .18s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.panel {
+    width: min(1200px, 96vw);
+    height: 90vh;
+    max-width: none;
+    border-radius: 24px;
+    background: #ae6c3b;
+    color: #1a110a;
+    border: 6px solid var(--brown-d);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+    position: relative;
+    padding: 26px 26px 30px;
+    isolation: isolate;
+    display: flex;
+    /* NEW */
+    flex-direction: column;
+    /* NEW */
+    align-items: center;
+    /* NEW - centers children horizontally */
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border-radius: 16px;
+    border: 4px solid var(--brown-d);
+    pointer-events: none;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0 18px;
+}
+
+.panel-title {
+    background: var(--accent);
+    padding: 10px 28px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 28px;
+    box-shadow: inset 0 -3px 0 #e37f10;
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    background: #c1493d;
+    color: #fff;
+    border: 3px solid #7a221a;
+    cursor: pointer;
+    opacity: .9;
+    transition: transform .15s ease, opacity .2s;
+}
+
+.close:hover {
+    transform: rotate(6deg) scale(1.05);
+    opacity: 1;
+}
+
+
+/* GRID with 5 items */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    justify-items: center;
+    padding: 8px 10px;
+}
+
+.tile {
+    background: var(--green);
+    border-radius: 18px;
+    width: 200px;
+    /* fixed width */
+    height: 200px;
+    /* fixed height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #2b6f16;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    transform: translateZ(0);
+    transition: transform .14s ease, box-shadow .14s ease, filter .2s ease;
+    box-shadow: 0 10px 0 #2b6f16, 0 16px 26px rgba(0, 0, 0, .25);
+}
+
+.tile:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 0 #2b6f16, 0 22px 36px rgba(0, 0, 0, .3);
+}
+
+.icon {
+    font-size: 50px;
+    font-family: 'PressStart2P', monospace;
+    line-height: 1;
+}
+
+.label {
+    margin-top: 8px;
+    font-weight: 900;
+    color: #1b1b1b;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, .25);
+    font-size: 16px;
+    font-family: 'PressStart2P', monospace;
+}
+
+.ability {
+    position: absolute;
+    inset: auto 8px 8px 8px;
+    background: rgba(0, 0, 0, .75);
+    color: #fff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    line-height: 1.25;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .15s ease, transform .15s ease;
+    pointer-events: none;
+}
+
+.tile:hover .ability {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* FLASH */
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* SHOP title */
+
+#shopTitle {
+    font-family: 'PressStart2P', monospace;
+    font-size: 40px;
+    color: black;
+    text-align: center;
+    margin-top: 20px;
+    animation: flash 1s infinite;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* RAINBOW ANIMATION */
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.label,
+.badge {
+    font-family: 'PressStart2P', monospace;
+    font-size: 14px;
+    text-align: center;
+    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 5s linear infinite;
+}
+
+
+/* INFO box centered below */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+.info {
+    font-family: 'PressStart2P', monospace;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
+    /* spacing below items */
+    width: 80%;
+    /* takes up most of panel width, always centered */
+    max-width: 900px;
+    /* but doesn’t get too wide */
+    line-height: 1.6;
+    background: #ff961e;
+    border: 5px solid #4B2E05;
+    border-radius: 12px;
+    padding: 16px 20px;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#shopInfo {
+    display: inline-block;
+    text-align: center;
+    opacity: 1;
+    animation: textColorChange 4s infinite;
+}
+
+
+/* COLOR REPEAT ANIMATION */
+
+@keyframes textColorChange {
+    0% {
+        color: blue;
+    }
+    33% {
+        color: purple;
+    }
+    66% {
+        color: black;
+    }
+    100% {
+        color: blue;
+    }
+}
+
+
+/* FADE ANMATION */
+
+.fade-in {
+    animation: fadeIn 1.2s ease-in forwards;
+}
+
+.fade-out {
+    animation: fadeOut 1.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+/* COIN HUD */
+
+.topbar {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 300;
+}
+
+#coinDisplay {
+    font-family: 'PressStart2P', monospace;
+    font-size: 14px;
+    background: #ff961e;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 3px solid #4f2e15;
+    color: #121212;
+    box-shadow: 0 3px 0 #cc7413;
+}
+
+
+/* Purchase Modal */
+
+.purchase-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.purchase-modal.show {
+    display: flex;
+}
+
+.purchase-box {
+    background: #fff3cd;
+    border: 4px solid #4f2e15;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    font-family: 'PressStart2P', monospace;
+    max-width: 320px;
+}
+
+.purchase-box p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.purchase-actions button {
+    font-family: 'PressStart2P', monospace;
+    font-size: 12px;
+    margin: 0 8px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#confirmPurchase {
+    background: #53d13a;
+    color: white;
+}
+
+#cancelPurchase {
+    background: #c1493d;
+    color: white;
+}
+
+
+/* ✅ Pixelated Coin HUD inside SHOP */
+
+.coin-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'PressStart2P', monospace;
+    font-size: 14px;
+    color: #121212;
+    background: #ffcc00;
+    padding: 8px 12px;
+    border: 4px solid #4f2e15;
+    box-shadow: 0 0 0 4px #ffe066, 0 0 0 8px #4f2e15;
+    text-transform: uppercase;
+}
+
+.coin-box span {
+    color: #2b1604;
+    font-weight: bold;
+}
+
+
+/* ✅ Popup styling (hidden by default) */
+
+.item-popup {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 8px 12px;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    text-align: center;
+    display: none;
+    /* stays hidden until used */
+    z-index: 1000;
+}
+
+.item-popup .popup-icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.item-popup .popup-arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #222;
+    margin: 6px auto 0 auto;
+}
+
+
+/* Overlay background */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    cursor: pointer;
+}
+
+
+/* Hide by default */
+
+.hidden {
+    display: none;
+}
+
+
+/* Transparent "spotlight" hole */
+
+.spotlight {
+    position: absolute;
+    border-radius: 15px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8);
+    transition: all 0.5s ease;
+}
+
+
+/* Description text */
+
+.tutorial-text {
+    position: absolute;
+    bottom: 10%;
+    background: orange;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+}
+
+.continue-text {
+    font-size: 10px;
+    margin-top: 8px;
+    color: white;
+}
+
+#falling-leaves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* don’t block clicks */
+    overflow: hidden;
+    z-index: -1;
+    /* stays behind your content */
+}

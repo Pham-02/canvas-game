@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MathGO – Shop</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shop (1).css">
+    <link rel="icon" type="image/png" href="/images/logoIcon.png">
+</head>
+
+<body>
+
+
+    <div class="purchase-modal" id="purchaseModal">
+  <div class="purchase-box">
+    <p id="purchaseMessage">Would you like to purchase this item?</p>
+
+    <div class="quantity-row" style="display:flex;align-items:center;gap:.5rem;margin:10px 0;">
+      <button id="qtyDecr" type="button" aria-label="Decrease quantity">−</button>
+      <input id="qtyInput" type="number" min="1" value="1" style="width:3.5rem;text-align:center" />
+      <button id="qtyIncr" type="button" aria-label="Increase quantity">+</button>
+      <span id="totalCost" style="margin-left:1rem;">Total: 0</span>
+    </div>
+
+    <div class="purchase-actions">
+      <button id="confirmPurchase">Buy</button>
+      <button id="cancelPurchase">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="topbar">
+
+    </div>
+
+    <div class="backdrop" id="backdrop" aria-hidden="true">
+        <section class="panel" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
+            <a href="MainMenu.html">
+                <button class="close" id="closeShop" aria-label="Close shop">✕</button>
+            </a>
+
+            <div class="coin-box">
+                <span id="coinDisplay">0</span> COINS
+            </div>
+
+
+            <header class="panel-header">
+                <div class="panel-title" id="shopTitle">SHOP</div>
+            </header>
+
+
+            <div class="grid" id="tiles">
+                <button class="tile" id="hintBtn" data-ability="Show a clue to nudge you to the right answer." aria-label="Hint">
+          <div class="icon">💡</div>
+          <div class="label">HINT</div>
+          <div class="badge"></div>
+          <div class="ability" role="tooltip"></div>
+        </button>
+                <button class="tile" id="swapBtn" data-ability="Swap the current question for a new one." aria-label="Swap Question">
+          <div class="icon">🔄</div>
+          <div class="label">SWAP QUESTION</div>
+          <div class="badge"></div>
+          <div class="ability" role="tooltip"></div>
+        </button>
+                <button class="tile" id="freezeBtn" data-ability="Freeze the timer for a few seconds." aria-label="Freeze Time">
+          <div class="icon">❄️</div>
+          <div class="label">FREEZE TIME</div>
+          <div class="badge"></div>
+          <div class="ability" role="tooltip"></div>
+        </button>
+                <button class="tile" id="doubleBtn" data-ability="Earn 2× points for the next correct answer." aria-label="Double Points">
+          <div class="icon">2×</div>
+          <div class="label">DOUBLE POINTS</div>
+          <div class="badge"></div>
+          <div class="ability" role="tooltip"></div>
+        </button>
+                <button class="tile" id="retryBtn" data-ability="Retry the last missed question immediately." aria-label="Retry Token">
+          <div class="icon">🎟️</div>
+          <div class="label">RETRY TOKEN</div>
+          <div class="badge"></div>
+          <div class="ability" role="tooltip"></div>
+        </button>
+            </div>
+
+
+            <div class="info" id="shopInfo">
+                Boost your chances and win big in every round! Activate these boosts to increase your luck, speed up progress, and rack up more rewards. Don't miss your shot—take your Bingo game to the next level!
+            </div>
+        </section>
+    </div>
+
+    <div class="overlay" id="hintOverlay">
+        <div class="effect">💡 HINT!</div>
+    </div>
+    <div class="overlay" id="swapOverlay">
+        <div class="effect">🔄 SWAP!</div>
+    </div>
+    <div class="overlay" id="freezeOverlay">
+        <canvas id="snowCanvas"></canvas>
+        <div class="effect">❄️ FREEZE ❄️</div>
+    </div>
+    <div class="overlay" id="doubleOverlay">
+        <div class="effect">✖️2 DOUBLE!</div>
+    </div>
+    <div class="overlay" id="retryOverlay">
+        <div class="effect">🔁 RETRY!</div>
+    </div>
+
+    <div class="ground">
+        <div class="hill" style="left:-10%"></div>
+        <div class="hill h2"></div>
+        <div class="path"></div>
+    </div>
+
+    <div id="tutorial-overlay" class="overlay hidden">
+        <div class="spotlight"></div>
+        <div class="tutorial-text">
+            <p id="tutorial-description"></p>
+            <p class="continue-text">Click to continue</p>
+        </div>
+    </div>
+    <script src="shop.js"></script>
+
+</body>
+
+</html>
